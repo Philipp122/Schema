@@ -111,16 +111,31 @@ let validators = {
             if(toType(value) === 'number')
                 return value === req;
             else
-                throw new TypeError(`Parameter value has to be of type 'number'`);
+                throw new TypeError(`Parameter 'value' has to be of type 'number'`);
         else if(toType(req) === 'string')
             if(toType(value) === 'string')
                 return value === req;
             else
-                throw new TypeError(`Parameter 'req' has to be of type 'string'`);
+                throw new TypeError(`Parameter 'value' has to be of type 'string'`);
         else
             throw new TypeError(`Parameter 'req' has to be of type 'number', 'string' or 'regexp' but is of type ${toType(type)}`);
 
     }
 };
 
-module.exports = {toType, validators};
+/**
+ * Checks if 'obj' is a valid Schema, either a string defining the Datatype or and object containing the 'type' key
+ * which is a string defining the Datatype
+ * @param obj {string || object}
+ * @return {boolean}
+ */
+let isSchema = (obj) => {
+    if(toType(obj) === 'string')
+        return true;
+    else if(obj['type'] !== 'undefined')
+        return obj['type'] === 'string';
+    else
+        return false;
+};
+
+module.exports = {toType, validators, isSchema};
