@@ -1,0 +1,24 @@
+{
+  "name": "schema",
+  "version": "0.1.0",
+  "description": "A mongoose-like schema validator for NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Philipp122/Schema.git"
+  },
+  "keywords": [
+    "schema",
+    "validation",
+    "JSON"
+  ],
+  "author": "Philipp Steckenbauer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Philipp122/Schema/issues"
+  },
+  "homepage": "https://github.com/Philipp122/Schema#readme"
+}
