@@ -8,6 +8,21 @@ let toType = (obj) => {
 };
 
 /**
+ * Checks if 'obj' is a valid Schema, either a string defining the Datatype or and object containing the 'type' key
+ * which is a string defining the Datatype
+ * @param obj {string || object}
+ * @return {boolean}
+ */
+let isSchema = (obj) => {
+    if(toType(obj) === 'string')
+        return true;
+    else if(obj['type'] !== 'undefined')
+        return obj['type'] === 'string';
+    else
+        return false;
+};
+
+/**
  * A list of validators. Can be expanded
  */
 let validators = {
@@ -111,12 +126,12 @@ let validators = {
             if(toType(value) === 'number')
                 return value === req;
             else
-                throw new TypeError(`Parameter 'value' has to be of type 'number'`);
+                return false;
         else if(toType(req) === 'string')
             if(toType(value) === 'string')
                 return value === req;
             else
-                throw new TypeError(`Parameter 'value' has to be of type 'string'`);
+                return false;
         else
             throw new TypeError(`Parameter 'req' has to be of type 'number', 'string' or 'regexp' but is of type ${toType(type)}`);
 
@@ -124,18 +139,33 @@ let validators = {
 };
 
 /**
- * Checks if 'obj' is a valid Schema, either a string defining the Datatype or and object containing the 'type' key
- * which is a string defining the Datatype
- * @param obj {string || object}
+ * Applies the validators in schema to value
+ * @param value {null || undefined || boolean || number || string}
+ * @param schema {string || object}
  * @return {boolean}
  */
-let isSchema = (obj) => {
-    if(toType(obj) === 'string')
-        return true;
-    else if(obj['type'] !== 'undefined')
-        return obj['type'] === 'string';
+let applyValidators = (value, schema) => {
+    let bool = true;
+    let localValidators = {};
+
+    if(toType(schema) === 'string')
+        bool &= validators['type'](value, schema);
+    else if(toType(schema) === 'object') {
+        Object.keys(schema).forEach(val => {
+            if(validators[val] !== undefined)
+                localValidators[val] = validators[val];
+            else
+                throw new ReferenceError(`Validator ${value} not found!`);
+        });
+
+        Object.keys(localValidators).forEach(val => {
+            bool &= localValidators[val](value, schema[val]);
+        });
+    }
     else
-        return false;
+        throw new ReferenceError(`'schema' is neither a string nor an object but ${toType(schema)}`);
+
+    return bool;
 };
 
-module.exports = {toType, validators, isSchema};
+module.exports = {toType, isSchema, validators, applyValidators};
