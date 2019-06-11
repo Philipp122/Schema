@@ -113,11 +113,10 @@ let validators = {
             throw new TypeError(`Parameter 'req' has to be of type 'number' but is of type ${toType(req)}`);
     },
     /**
-     * TODO: Implement RegExp check
      * Checks if two values match each other or if 'value' is a string and 'req' is a RegExp check if the RegExp
      * matches the string
      * @param value {string || number}
-     * @param req {number || string || RegExp}
+     * @param req {number || string || string<RegExp>}
      * @return {boolean}
      * @throws TypeError
      */
@@ -127,11 +126,15 @@ let validators = {
                 return value === req;
             else
                 return false;
-        else if(toType(req) === 'string')
-            if(toType(value) === 'string')
+        else if(toType(req) === 'string') {
+            if (req.match(/^\/.+\/[gmiyus]+$/m))
+                return !value.match(new RegExp(req));
+
+            if (toType(value) === 'string')
                 return value === req;
             else
                 return false;
+        }
         else
             throw new TypeError(`Parameter 'req' has to be of type 'number', 'string' or 'regexp' but is of type ${toType(type)}`);
 
