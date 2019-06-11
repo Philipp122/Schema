@@ -1,6 +1,6 @@
 {
   "name": "schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A mongoose-like schema validator for NodeJS",
   "main": "index.js",
   "scripts": {

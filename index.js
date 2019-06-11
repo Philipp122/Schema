@@ -1,4 +1,5 @@
-const {toType, isSchema, applyValidators} = require('./validators.js');
+const {applyValidators} = require('./validators');
+const {toType, isSchema} = require('./utils');
 
 /**
  * Validates and object against a schema
