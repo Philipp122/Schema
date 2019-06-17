@@ -1,11 +1,4 @@
-/**
- * Return the true Datatype of a value
- * @param obj
- * @return {string}
- */
-let toType = (obj) => {
-    return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
-};
+const {toType} = require('./toType');
 
 /**
  * Checks if 'obj' is a valid Schema, either a string defining the Datatype or and object containing the 'type' key
@@ -16,10 +9,10 @@ let toType = (obj) => {
 let isSchema = (obj) => {
     if(toType(obj) === 'string')
         return true;
-    else if(obj['type'] !== 'undefined')
-        return obj['type'] === 'string';
+    else if(toType(obj) === 'object')
+        return toType(obj['type']) === 'string';
     else
         return false;
 };
 
-module.exports = {toType, isSchema};
+module.exports = {isSchema};
