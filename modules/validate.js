@@ -9,61 +9,64 @@ const {isSchema} = require('./isSchema');
  * @return {boolean || array}
  */
 let validate = (obj, schema) => {
-    if(isSchema(schema) && toType(obj) !== 'object' && toType(obj) !== 'array') {
-        return applyValidators(obj, schema);
-    }
-    else if(toType(obj) === 'object' && toType(schema) === 'object' && !isSchema(schema)) {
-        let errors = [];
-        let bool = true;
+    switch(toType(schema)) {
+        case 'string':
+            return applyValidators(obj, schema);
+        case 'object':
+            if(isSchema(schema))
+                return applyValidators(obj, schema);
+            else if(toType(obj) === 'object') {
+                let errors = [];
+                let bool = true;
 
-        Object.keys(schema).forEach(value => {
-            let res;
+                Object.keys(schema).forEach(value => {
+                    let res;
 
-            if(obj[value] !== undefined) {
-                res = validate(obj[value], schema[value]);
+                    if(obj[value] !== undefined)
+                        res = validate(obj[value], schema[value]);
+                    else
+                        errors.push(`${value}:Validator | Element missing in Object!`);
 
-                if(toType(res) === 'array')
-                    res.forEach(error => {
-                        errors.push(value + ': ' + error);
-                    });
+                    if(toType(res) === 'array')
+                        res.forEach(error => errors.push(`${value}:${error}`));
+                    else
+                        bool &= res;
+                });
+
+                if(errors.length > 0)
+                    return errors;
                 else
-                    bool &= res;
+                    return !!bool;
             }
             else
-                errors.push(value + ': ' + `Object-Schema mismatch!`);
-        });
+                return [`Validate | 'schema' is an 'object' but 'obj' is neither a value nor another 'object'`];
+        case 'array':
+            if(toType(obj) === 'array') {
+                let errors = [];
+                let bool = true;
 
-        if(errors.length > 0)
-            return errors;
-        else
-            return bool;
-    }
-    else if(toType(obj) === 'array' && toType(schema) === 'array' && !isSchema(schema)) {
-        let errors = [];
-        let bool = true;
+                if(schema.length > 0) {
+                    obj.forEach((value, index) => {
+                        let res = validate(value, schema[0]);
 
-        if(schema.length > 0) {
-            obj.forEach((value, index) => {
-                let res = validate(value, schema[0]);
-
-                if(toType(res) === 'array')
-                    res.forEach(error => {
-                        errors.push(index + ': ' + error);
+                        if(toType(res) === 'array')
+                            res.forEach(error => errors.push(`[${index}]: ${error}`));
+                        else
+                            bool &= res;
                     });
+                }
                 else
-                    bool &= res;
-            });
-        }
-        else
-            errors.push('Schema-Array empty!');
+                    errors.push('Validator | Schema-Array empty!');
 
-        if(errors.length > 0)
-            return errors;
-        else
-            return bool;
-    }
-    else {
-        return [`Element is not a schema nor of type 'object' or of type 'string'!`];
+                if(errors.length > 0)
+                    return errors;
+                else
+                    return !!bool;
+            }
+            else
+                return [`Validate | 'schema' is an array but 'obj' is not!`];
+        default:
+            return [`Validate | 'schema' has to be a 'string' an 'object' or an 'array'`];
     }
 };
 

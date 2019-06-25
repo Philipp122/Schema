@@ -1,5 +1,5 @@
 const {toType} = require('./toType');
-const {validators} = require('./validators');
+const validators = require('./validators');
 
 /**
  * Applies the validators in schema to value
@@ -25,7 +25,7 @@ let applyValidators = (value, schema) => {
             if(toType(validators[val]) === 'function')
                 localValidators[val] = validators[val];
             else
-                errors.push(`Validator ${val} not found!`);
+                errors.push(`Validator | ${val} not found!`);
         });
 
         Object.keys(localValidators).forEach(val => {
@@ -43,7 +43,7 @@ let applyValidators = (value, schema) => {
             return bool;
     }
     else
-        return [`'schema' is neither of type 'string' nor of type 'object' but of type '${toType(schema)}'`];
+        return [`Validator | 'schema' is neither of type 'string' nor of type 'object'!`];
 };
 
 module.exports = {applyValidators};
