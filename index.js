@@ -1,15 +1,7 @@
-const {toType, isSchema, applyValidators} = require('./validators.js');
+const {toType} = require('./modules/toType');
+const {isSchema} = require('./modules/isSchema');
+const validators = require('./modules/validators');
+const {applyValidators} = require('./modules/applyValidators');
+const {validate} = require('./modules/validate');
 
-/**
- * Validates and object against a schema
- * @param obj {null || undefined || boolean || NaN || number || string || object || array}
- * @param schema {string || object}
- * @return {boolean}
- */
-let validate = (obj, schema) => {
-    if(isSchema(schema) && toType(obj) !== 'object' && toType(obj) !== 'array') {
-        return applyValidators(obj, schema);
-    }
-
-    return false;
-};
+module.exports = {toType, isSchema, validators, applyValidators, validate};
