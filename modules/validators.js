@@ -2,7 +2,7 @@ const {toType} = require('./toType');
 
 /**
  * Checks if the type of 'value' equals the type specified in 'type'
- * @param value {string || number || boolean || null}
+ * @param value {string || number || boolean || null || array || object}
  * @param type {string}
  * @return {boolean || string}
  */
@@ -13,12 +13,14 @@ let type = (value, type) => {
             case 'number':
             case 'boolean':
             case 'null':
+            case 'array':
+            case 'object':
                 if(toType(value) === type.toLowerCase())
                     return true;
                 else
                     return `type | 'value' is not of type '${type}'!`;
             default:
-                `type | 'value' has to be a 'string', 'number', 'boolean' or 'null' but is of type '${toType(value)}'!`;
+                `type | 'value' has to be a 'string', 'number', 'boolean', 'null', 'array' or 'object' but is of type '${toType(value)}'!`;
         }
     else
         return `type | 'type' has to be a 'string' but is of type '${toType(type)}'!`;
@@ -26,7 +28,7 @@ let type = (value, type) => {
 
 /**
  * Checks if 'value' is present, eg. is not null, "" or NaN
- * @param value {string || number || boolean || null}
+ * @param value {string || number || boolean || null || array || object}
  * @param requirement {boolean}
  * @return {boolean || string}
  */
@@ -47,8 +49,18 @@ let required = (value, requirement) => {
                 return `required | 'value' is required but is 'null'!`;
             case 'boolean':
                 return true;
+            case 'array':
+                if(value.length > 0)
+                    return true;
+                else
+                    return `required | 'value' is required but array is empty!`;
+            case 'object':
+                if(Object.keys(value).length > 0)
+                    return true;
+                else
+                    return `required | 'value' is required but object is empty!`;
             default:
-                return `required | 'value' has to be a 'string', 'number', 'boolean' or 'null' but is of type '${toType(value)}'!`;
+                return `required | 'value' has to be a 'string', 'number', 'boolean', 'null', 'array' or 'object' but is of type '${toType(value)}'!`;
         }
     }
     else
@@ -58,7 +70,7 @@ let required = (value, requirement) => {
 /**
  * Checks if a number in 'value' is at least the number in 'req' or if the string in 'value' is at least 'req'
  * characters long
- * @param value {string || number}
+ * @param value {string || number || array || object}
  * @param requirement {number}
  * @return {boolean || string}
  */
@@ -75,8 +87,18 @@ let min = (value, requirement) => {
                     return true;
                 else
                     return `min | 'value' has to be larger than or equal to 'requirement'!`;
+            case 'array':
+                if(value.length >= requirement)
+                    return true;
+                else
+                    return `min | 'value' has to be larger than or equal to 'requirement'!`;
+            case 'object':
+                if(Object.keys(value).length >= requirement)
+                    return true;
+                else
+                    return `min | 'value' has to be larger than or equal to 'requirement'!`;
             default:
-                return `min | 'value' has to be a 'string' or 'number' but is of type '${toType(value)}'!`;
+                return `min | 'value' has to be a 'string', 'number', 'array' or 'object' but is of type '${toType(value)}'!`;
         }
     else
         return `min | 'requirement' has to be a 'number' but is of type '${toType(requirement)}'!`;
@@ -85,7 +107,7 @@ let min = (value, requirement) => {
 /**
  * Checks if a number in 'value' is at max the number in 'req' or if the string in 'value' is at max 'req'
  * characters long
- * @param value {string || number}
+ * @param value {string || number || array || object}
  * @param requirement {number}
  * @return {boolean || string}
  */
@@ -102,8 +124,18 @@ let max = (value, requirement) => {
                     return true;
                 else
                     return `max | 'value' has to be smaller than or equal to 'requirement'!`;
+            case 'array':
+                if(value.length <= requirement)
+                    return true;
+                else
+                    return `max | 'value' has to be smaller than or equal to 'requirement'!`;
+            case 'object':
+                if(Object.keys(value).length <= requirement)
+                    return true;
+                else
+                    return `max | 'value' has to be smaller than or equal to 'requirement'!`;
             default:
-                return `max | 'value' has to be a 'string' or 'number' but is of type '${toType(value)}'!`;
+                return `max | 'value' has to be a 'string', 'number', 'array' or 'object' but is of type '${toType(value)}'!`;
         }
     else
         return `max | 'requirement' has to be a 'number' but is of type '${toType(requirement)}'!`;
