@@ -1,6 +1,6 @@
-const toType = require('toType');
+const toType = require('@philipp122/totype');
 
-module.exports = {
+let validators = {
     /**
      * Checks if the type of 'value' equals the type specified in 'type'
      * @param value {null || undefined || boolean || number || string || array || object || regexp}
@@ -219,3 +219,5 @@ module.exports = {
         }
     }
 };
+
+module.exports = validators;

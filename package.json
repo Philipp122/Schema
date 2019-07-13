@@ -1,10 +1,10 @@
 {
   "name": "schema",
-  "version": "1.2.0",
-  "description": "A mongoose-like schema validator for NodeJS",
-  "main": "index.js",
-  "scripts": {
-    "test": "node ."
+  "version": "1.0.0",
+  "description": "A simple Schema Validator for NodeJS",
+  "main": "./index.js",
+  "engines": {
+    "node": ">=11.4.0"
   },
   "repository": {
     "type": "git",
@@ -13,12 +13,21 @@
   "keywords": [
     "schema",
     "validation",
-    "JSON"
+    "json",
+    "mongoose",
+    "scheme",
+    "schm",
+    "parser",
+    "validator"
   ],
-  "author": "Philipp Steckenbauer",
+  "author": "Philipp Steckenbauer <philipp@steckenbauer.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Philipp122/Schema/issues"
+    "url": "https://github.com/Philipp122/Schema/issues",
+    "email": "philipp@steckenbauer.com"
   },
-  "homepage": "https://github.com/Philipp122/Schema#readme"
+  "homepage": "https://github.com/Philipp122/Schema#readme",
+  "dependencies": {
+    "@philipp122/totype": "^1.0.1"
+  }
 }

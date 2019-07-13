@@ -1,15 +1,15 @@
-const {toType} = require('./toType');
-const validators = require('./validators');
+const {toType} = require('../toType');
+const validators = require('../validators');
 
 /**
  * Applies the validators in schema to value
- * @param value {null || undefined || boolean || number || string}
+ * @param value {null || undefined || boolean || number || string || array || object}
  * @param schema {string || object}
  * @return {boolean || array}
  */
 let applyValidators = (value, schema) => {
     if(toType(schema) === 'string') {
-        let res = validators['type'](value, schema);
+        let res = validators['type.test.js'](value, schema);
 
         if(toType(res) === 'string') {
             return [res];

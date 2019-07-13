@@ -1,7 +1,7 @@
-const {toType} = require('./modules/toType');
-const {isSchema} = require('./modules/isSchema');
-const validators = require('./modules/validators');
-const {applyValidators} = require('./modules/applyValidators');
-const {validate} = require('./modules/validate');
+const {toType} = require('./node_modules/toType');
+const {isSchema} = require('./node_modules/isSchema');
+const validators = require('./node_modules/validators/export');
+const {applyValidators} = require('./node_modules/applyValidators');
+const {validate} = require('./node_modules/validate');
 
 module.exports = {toType, isSchema, validators, applyValidators, validate};
