@@ -1,7 +1,0 @@
-Hey, for all developers, here is a TODO
-
-* remove type checking from validators in ./src/validators.js
-
-
-NOTES:
-ignore the ./modules folder as well as the current ./index.js, they are still from v1
