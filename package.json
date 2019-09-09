@@ -1,5 +1,5 @@
 {
-  "name": "schema",
+  "name": "@philipp122/schema",
   "version": "1.9.0",
   "description": "A simple Schema Validator for NodeJS",
   "main": "./index.js",
